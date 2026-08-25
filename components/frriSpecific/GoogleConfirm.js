@@ -147,26 +147,6 @@ function GoogleConfirm({ onConfirm, onClose, Email, Unik, Tel, BusinessEmail, Na
           >
             Continue with Google
           </button>
-
-          <button
-            onClick={onClose}
-            style={{
-              width: "100%",
-              height: "46px",
-              border: "1px solid #ccd0d5",
-              borderRadius: "999px",
-              background: "#fff",
-              color: "#1c1e21",
-              fontSize: "15px",
-              fontWeight: 600,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            Continue with Facebook
-          </button>
         </div>
       </div>
     </div>
