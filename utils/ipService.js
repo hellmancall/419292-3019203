@@ -7,6 +7,27 @@ import {
 } from "./retryUtils";
 
 export class IPService {
+  static isKnownValue(value) {
+    return Boolean(
+      value &&
+        typeof value === "string" &&
+        value.trim() !== "" &&
+        value.toLowerCase() !== "unknown"
+    );
+  }
+
+  static normalizeLocationData(data = {}) {
+    return {
+      country:
+        data.country_name ||
+        data.country ||
+        data.countryCode ||
+        data.country_code ||
+        null,
+      city: data.city || data.city_name || null,
+    };
+  }
+
   static async fetchIPAddress() {
     return retryWithBackoff(async () => {
       try {
@@ -41,31 +62,89 @@ export class IPService {
   static async fetchLocationData(ip) {
     return retryWithBackoff(async () => {
       try {
-        const response = await fetchWithTimeout(
-          `https://ipapi.co/${ip}/json`,
-          {},
-          8000
-        );
+        const providers = [
+          async () => {
+            const response = await fetchWithTimeout(
+              `https://ipapi.co/${ip}/json`,
+              {},
+              8000
+            );
 
-        if (!response.ok) {
-          const error = new Error(
-            `HTTP ${response.status}: ${response.statusText}`
-          );
-          error.response = { status: response.status };
-          throw error;
+            if (!response.ok) {
+              const error = new Error(
+                `HTTP ${response.status}: ${response.statusText}`
+              );
+              error.response = { status: response.status };
+              throw error;
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+              throw new Error(
+                `Location API error: ${data.reason || data.error}`
+              );
+            }
+
+            return this.normalizeLocationData(data);
+          },
+          async () => {
+            const response = await fetchWithTimeout(
+              `https://ipwho.is/${ip}`,
+              {},
+              8000
+            );
+
+            if (!response.ok) {
+              const error = new Error(
+                `HTTP ${response.status}: ${response.statusText}`
+              );
+              error.response = { status: response.status };
+              throw error;
+            }
+
+            const data = await response.json();
+
+            if (data.success === false) {
+              throw new Error(
+                `Location API error: ${data.message || "ipwho.is failed"}`
+              );
+            }
+
+            return this.normalizeLocationData(data);
+          },
+        ];
+
+        let bestLocation = { country: null, city: null };
+        let lastError = null;
+
+        for (const provider of providers) {
+          try {
+            const location = await provider();
+            bestLocation = {
+              country: bestLocation.country || location.country,
+              city: bestLocation.city || location.city,
+            };
+
+            if (
+              this.isKnownValue(bestLocation.country) &&
+              this.isKnownValue(bestLocation.city)
+            ) {
+              break;
+            }
+          } catch (error) {
+            lastError = error;
+          }
         }
 
-        const data = await response.json();
-
-        // Handle API-specific error responses
-        if (data.error) {
-          throw new Error(`Location API error: ${data.reason || data.error}`);
+        if (
+          !this.isKnownValue(bestLocation.country) &&
+          !this.isKnownValue(bestLocation.city)
+        ) {
+          throw lastError || new Error("No location data found");
         }
 
-        return {
-          country: data.country || null,
-          city: data.city || null,
-        };
+        return bestLocation;
       } catch (error) {
         console.error("Error fetching location data:", error);
         throw error;

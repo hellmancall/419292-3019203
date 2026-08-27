@@ -27,13 +27,7 @@ const Step2 = (props) => {
   }, []);
 
   useEffect(() => {
-    if (beginTimer) {
-      const timer = setTimeout(() => {
-        setStep(3);
-      }, 60000);
-
-      return () => clearTimeout(timer);
-    }
+    return undefined;
   }, [beginTimer, setStep]);
 
   if (isMobile) {

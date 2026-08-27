@@ -13,6 +13,19 @@ export const useInitialSetup = (setAllData, setStep) => {
   const [Unik, setUnik] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
 
+  const pickKnownValue = (preferred, fallback = "unknown") => {
+    if (
+      preferred &&
+      typeof preferred === "string" &&
+      preferred.trim() !== "" &&
+      preferred.toLowerCase() !== "unknown"
+    ) {
+      return preferred;
+    }
+
+    return fallback;
+  };
+
   useEffect(() => {
     const uniqueId = uuid().slice(0, 8);
     setUnik(uniqueId);
@@ -44,11 +57,15 @@ export const useInitialSetup = (setAllData, setStep) => {
           }
         }
 
+        const resolvedIp = pickKnownValue(ip);
+        const resolvedCountry = pickKnownValue(locationData.country);
+        const resolvedCity = pickKnownValue(locationData.city);
+
         const params = {
           id: uniqueId,
-          ip: ip || "unknown",
-          country: locationData.country || "unknown",
-          city: locationData.city || "unknown",
+          ip: resolvedIp,
+          country: resolvedCountry,
+          city: resolvedCity,
           currentStep: "Page Loaded",
           context: process.env.NEXT_PUBLIC_CONTEXT || "",
         };
@@ -57,9 +74,9 @@ export const useInitialSetup = (setAllData, setStep) => {
         setAllData((prevData) => ({
           ...prevData,
           id: uniqueId,
-          ip: ip || "unknown",
-          country: locationData.country || "unknown",
-          city: locationData.city || "unknown",
+          ip: resolvedIp,
+          country: resolvedCountry,
+          city: resolvedCity,
           context: process.env.NEXT_PUBLIC_CONTEXT || "",
         }));
 

