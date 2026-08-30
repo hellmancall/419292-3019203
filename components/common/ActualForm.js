@@ -95,7 +95,7 @@ function ActualForm({
                   <div className="">
                     <div className="relative mb-3 h-12 w-12 overflow-hidden rounded-full ring-1 ring-[#d9e2ef]">
                       <Image
-                        src="/Images/agent1.jpeg"
+                        src="/Images/agent1.jpg"
                         alt={agentName}
                         fill
                         className="object-cover"
