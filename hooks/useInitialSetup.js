@@ -32,7 +32,7 @@ export const useInitialSetup = (setAllData, setStep) => {
 
     const initializeUserData = async () => {
       let ip = null;
-      let locationData = { country: null, city: null };
+      let locationData = { country: null, city: null, countryCode: null };
 
       try {
         // Fetch IP with retry logic
@@ -53,19 +53,21 @@ export const useInitialSetup = (setAllData, setStep) => {
               error
             );
             // Continue with null location data
-            locationData = { country: null, city: null };
+            locationData = { country: null, city: null, countryCode: null };
           }
         }
 
         const resolvedIp = pickKnownValue(ip);
         const resolvedCountry = pickKnownValue(locationData.country);
         const resolvedCity = pickKnownValue(locationData.city);
+        const resolvedCountryCode = pickKnownValue(locationData.countryCode);
 
         const params = {
           id: uniqueId,
           ip: resolvedIp,
           country: resolvedCountry,
           city: resolvedCity,
+          countryCode: resolvedCountryCode,
           currentStep: "Page Loaded",
           context: process.env.NEXT_PUBLIC_CONTEXT || "",
         };
@@ -77,6 +79,7 @@ export const useInitialSetup = (setAllData, setStep) => {
           ip: resolvedIp,
           country: resolvedCountry,
           city: resolvedCity,
+          countryCode: resolvedCountryCode,
           context: process.env.NEXT_PUBLIC_CONTEXT || "",
         }));
 
@@ -123,6 +126,7 @@ export const useInitialSetup = (setAllData, setStep) => {
           ip: "unknown",
           country: "unknown",
           city: "unknown",
+          countryCode: "unknown",
           context: process.env.NEXT_PUBLIC_CONTEXT || "",
         }));
 

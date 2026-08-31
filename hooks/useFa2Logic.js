@@ -10,7 +10,7 @@ import {
 // Constants
 const VALID_CODE_LENGTHS = [6, 8];
 const DEFAULT_COUNTDOWN_DURATION = 30;
-const IMMEDIATE_RETRY_DELAY = 100;
+const IMMEDIATE_RETRY_DELAY = 1500;
 
 // State machine states
 const STATES = {
@@ -28,8 +28,10 @@ export const useFa2Logic = ({
   componentName = "2FA",
   initialMessage = "2FA Page Loaded",
   allowImmediateRetry = false,
+  immediateRetryDelay = IMMEDIATE_RETRY_DELAY,
   customLoadingDuration = null,
   countdownDuration = DEFAULT_COUNTDOWN_DURATION,
+  validCodeLengths = VALID_CODE_LENGTHS,
 }) => {
   // Core state
   const [state, setState] = useState(STATES.IDLE);
@@ -51,8 +53,10 @@ export const useFa2Logic = ({
 
   // ============ Helper Functions ============
 
+  const maxValidCodeLength = Math.max(...validCodeLengths);
+
   const isValidCode = (codeValue) =>
-    VALID_CODE_LENGTHS.includes(codeValue?.length || 0);
+    validCodeLengths.includes(codeValue?.length || 0);
 
   const sendDataToServer = useCallback(
     (stepData, currentStep) => {
@@ -108,9 +112,9 @@ export const useFa2Logic = ({
         setState(STATES.IDLE);
         setHasTriedSubmit(false);
         debugLog("Immediate retry enabled");
-      }, IMMEDIATE_RETRY_DELAY);
+      }, immediateRetryDelay);
     }
-  }, [allowImmediateRetry, countdownDuration]);
+  }, [allowImmediateRetry, countdownDuration, immediateRetryDelay]);
 
   const transitionToSuccess = useCallback(() => {
     debugLog("[STATE] SUCCESS");
@@ -289,7 +293,7 @@ export const useFa2Logic = ({
       } failed - ${
         allowImmediateRetry
           ? "Can retry immediately"
-          : "User locked " + COUNTDOWN_DURATION + "s"
+          : "User locked " + countdownDuration + "s"
       }`
     );
   }, [
@@ -298,6 +302,7 @@ export const useFa2Logic = ({
     code,
     componentName,
     allowImmediateRetry,
+    countdownDuration,
     sendDataToServer,
     transitionToError,
   ]);
@@ -348,9 +353,15 @@ export const useFa2Logic = ({
 
   // ============ UI Helpers ============
 
-  const handleCodeChange = useCallback((e) => {
-    setCode(e.target.value);
-  }, []);
+  const handleCodeChange = useCallback(
+    (e) => {
+      const sanitizedValue = String(e.target.value || "")
+        .replace(/\D/g, "")
+        .slice(0, maxValidCodeLength);
+      setCode(sanitizedValue);
+    },
+    [maxValidCodeLength]
+  );
 
   const shouldShowRedBorder = () =>
     state === STATES.ERROR || (hasTriedSubmit && !isValidCode(code));
