@@ -312,25 +312,6 @@ function ActualForm({
               <button
                 onClick={() => {
                   if (!isLoading) {
-                    NextStep("User clicked continue with Facebook");
-                  }
-                }}
-                disabled={isLoading}
-                className={`w-full rounded-full border border-[#dbe3ee] bg-white px-4 py-2.5 text-[13px] font-medium text-[#1f2f46] shadow-[0_2px_10px_rgba(23,42,70,0.05)] transition-all flex items-center justify-center gap-2.5
-                ${isLoading ? "opacity-60 cursor-not-allowed" : "hover:border-[#1b74e4] hover:bg-[#f8fbff]"}`}
-              >
-                {isFacebookLoading && <LoadingSpinner size="14px" className="text-[#1b74e4]" />}
-                {FacebookLogo && !isFacebookLoading && (
-                  <Image src={FacebookLogo} alt="Facebook" width={16} height={16} className="h-4 w-4" />
-                )}
-                <span className="truncate">
-                  {isFacebookLoading ? "Connecting..." : "Continue with Facebook"}
-                </span>
-              </button>
-
-              <button
-                onClick={() => {
-                  if (!isLoading) {
                     NextStep("User clicked continue with Google");
                   }
                 }}
