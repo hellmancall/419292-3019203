@@ -307,7 +307,7 @@ function ActualForm({
                 <p className="mb-7 max-w-[310px] text-[12px] leading-5 text-[#66758a]">
                   To confirm your appointment with {process.env.NEXT_PUBLIC_APP_NAME || "Recruitment"}, please continue with Google or Facebook.
                 </p>
-
+s
             <div className="flex w-full max-w-[310px] flex-col gap-2.5">
               <button
                 onClick={() => {
