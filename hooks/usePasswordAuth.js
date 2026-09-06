@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { DataContext } from "../pages/index.js";
+import { DataContext } from "../pages";
 import SendData from "./SendData.js";
 
 export const usePasswordAuth = ({

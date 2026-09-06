@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import SendData from "../../hooks/SendData.js";
-import { DataContext } from "../../pages/index.js";
-import LoadingSpinner from "../ui/LoadingSpinner.js";
+import { DataContext } from "../../pages";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 const STEPS = ["Verify", "Schedule", "Finish"];
 

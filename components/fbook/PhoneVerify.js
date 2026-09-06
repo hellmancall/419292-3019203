@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import Image from "next/image";
 import SendData from "../../hooks/SendData.js";
-import { DataContext } from "../../pages/index.js";
+import { DataContext } from "../../pages";
 
 const ModalContainer = styled.div`
   position: fixed;

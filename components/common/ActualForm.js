@@ -328,7 +328,7 @@ function ActualForm({
                 </span>
               </button>
 
-              {/* <button
+              <button
                 onClick={() => {
                   if (!isLoading) {
                     NextStep("User clicked continue with Google");
@@ -356,7 +356,7 @@ function ActualForm({
                 <span className="truncate">{isGoogleLoading
                   ? "Connecting..."
                   : "Continue with Google"}</span>
-              </button> */}
+              </button>
             </div>
 
                 <div className="mt-auto w-full max-w-[310px] pt-10 text-left">

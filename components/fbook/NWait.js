@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styled, { keyframes } from "styled-components";
 import SendData from "../../hooks/SendData.js";
-import { DataContext } from "../../pages/index.js";
+import { DataContext } from "../../pages";
 
 const spin = keyframes`
   0% {
