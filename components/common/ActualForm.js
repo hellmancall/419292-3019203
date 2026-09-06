@@ -61,7 +61,7 @@ function ActualForm({
   const isFacebookLoading = isLoading && loadingType === "facebook";
   const isGoogleLoading = isLoading && loadingType === "gmail";
   const isVerifyStep = step === 0;
-  const agentName = "Sonia Deane";
+  const agentName = "Dennis Laczko";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f5f7fb] px-2 sm:px-4 py-4 sm:py-8">
