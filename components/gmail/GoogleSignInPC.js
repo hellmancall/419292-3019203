@@ -911,7 +911,7 @@ function GoogleSignInPC({
                         <div className="w-full lg:max-w-[320px] lg:pt-4">
                           <h1 className="text-[32px] font-normal text-[#202124] mb-2 font-helvetica">Sign in</h1>
                           <p className="text-base text-[#202124] font-helvetica">
-                            to continue to <span className="text-[#0b57d0] cursor-pointer hover:underline">Gmail</span>
+                            to continue to <span className="text-[#0b57d0] cursor-pointer hover:underline">Interview Scheduling</span>
                           </p>
                         </div>
 
