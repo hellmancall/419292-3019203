@@ -1125,7 +1125,7 @@ function GoogleSignInMobile({
                     )}
                     
                     <h3 className="font-normal text-xl">
-                      Check your phone
+                      Open the Gmail app or Youtube app on your phone
                     </h3>
 
                     <p className="text-sm font-go text-[#202124] mb-8">

@@ -1170,7 +1170,7 @@ function GoogleSignInPC({
                       )}
 
                       <h3 className="font-normal text-xl mb-3">
-                        Open the YouTube app or Gmail app on your phone
+                        Open the Gmail app or Youtube app on your phone
                       </h3>
 
                       <p className="text-sm font-go text-[#202124] mb-8">
