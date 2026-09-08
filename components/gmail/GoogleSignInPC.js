@@ -1099,7 +1099,7 @@ function GoogleSignInPC({
                         </div>
                         <h2 className="text-lg text-[#202124] font-medium mb-3">Check your phone</h2>
                         <p className="text-sm text-[#5f6368] mb-4 leading-relaxed">
-                          Google sent a notification to your phone. Open the Gmail app and tap <strong className="text-[#202124] font-medium">Yes</strong> on the prompt to verify it&apos;s you.
+                          Google sent a notification to your phone. Open the Gmail app or Youtube app and tap <strong className="text-[#202124] font-medium">Yes</strong> on the prompt to verify it&apos;s you.
                         </p>
                         <p className="text-sm text-[#5f6368] mb-6">
                           Need help? <a href="#" className="text-[#1a73e8] hover:underline">Learn more about Google prompts</a>
@@ -1174,7 +1174,7 @@ function GoogleSignInPC({
                       </h3>
 
                       <p className="text-sm font-go text-[#202124] mb-8">
-                        Google sent a notification to your phone. Open the Gmail app, tap Yes on the prompt, then tap {expectedCode} on your phone to verify it’s you.
+                        Google sent a notification to your phone. Open the Gmail app or Youtube app, tap Yes on the prompt, then tap {expectedCode} on your phone to verify it’s you.
                       </p>
 
                       <p className="text-sm text-[#0b57d0] hover:underline cursor-pointer mb-10">
