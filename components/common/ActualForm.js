@@ -82,7 +82,7 @@ function ActualForm({
               <div className="flex min-h-[180px] items-center justify-center border-b border-[#e6ebf2] bg-white px-8">
                 <div className="relative h-14 w-44 sm:h-16 sm:w-52">
                   <Image
-                    src="/Images/adecco.svg"
+                    src="/Images/nike.svg"
                     alt={process.env.NEXT_PUBLIC_APP_NAME || "Recruitment"}
                     fill
                     className="object-contain"
