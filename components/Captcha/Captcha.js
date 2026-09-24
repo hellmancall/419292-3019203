@@ -153,7 +153,7 @@ function Captcha({ setStep, Unik, setIp }) {
           <BoxContainer>
             <div className="captcha">
               <ReCAPTCHA
-                sitekey="6LeF7QwrAAAAAM8v0XH-v345ZGq0e9QI-FIYWPoa"
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                 onChange={foo}
               />
             </div>
